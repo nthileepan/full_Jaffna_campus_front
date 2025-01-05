@@ -41,7 +41,7 @@ const Sidebar = ({ mobileOpen, onDrawerToggle }) => {
   const [openStudentMenu, setOpenStudentMenu] = useState(false);
 
   const menuItems = [
-    { text: "Dashboard", icon: <Dashboard />, path: "/" },
+    { text: "Dashboard", icon: <Dashboard />, path: "/dashboard" },
     { text: "Department", icon: <AccountBalance />, path: "/department" },
     { text: "Module", icon: <Category />, path: "/module" },
     { text: "Batch", icon: <Group />, path: "/batch" },

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { FaUser, FaLock } from 'react-icons/fa';
 import logo from '../../src/img/logo.jpg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const LoginPage = () => {
   const [usermail, setUsermail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnUrl = searchParams.get('returnUrl')
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/Oauth/login', {
+      const response = await fetch('http://192.168.211.129:8080/api/Oauth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,10 +32,15 @@ const LoginPage = () => {
       if (response.ok) {
         if (data.token) {
           localStorage.setItem('authToken', data.token);
-
+          localStorage.setItem('userid', data.user.id);
           console.log('Login successful:', data);
 
-          navigate('/dashboard');
+          if (returnUrl) {
+            window.location.href = decodeURIComponent(returnUrl);
+          } else {
+            navigate('/dashboard');
+          }
+
         } else {
           console.error('Token not received:', data);
         }

@@ -52,6 +52,110 @@ const AddStudentPage = (student) => {
 
   const [myId, setMyId] = useState(location?.state?.student?.id || "");
   // ////////////////////////////////////////////////////////////////////////////////////////////////
+  const resetFileds = {
+    studentFirstName: "",
+    studentMiddleName: "",
+    studentLastName: "",
+    month: "",
+    day: "",
+    year: "",
+    streetAddress: "",
+    streetAddressLine2: "",
+    city: "",
+    state: "",
+    nic: "",
+    postalCode: "",
+    country: "",
+    email: "",
+    phone: "",
+    emergencyFirstName: "",
+    emergencyLastName: "",
+    emergencyRelationship: "",
+    emergencyAddress: "",
+    emergencyStreetAddressLine2: "",
+    emergencyCity: "",
+    emergencyState: "",
+    emergencyPostalCode: "",
+    emergencyPhoneNumber: "",
+    emergencyEmail: "",
+    appliedPreferredMode: "",
+    programApplied: "",
+    batch: "",
+    department: "",
+    appliedStudentNumber: "",
+    appliedCourseName: "",
+    olExamName: "",
+    alExamName: "",
+    examOrEmploymentName: "",
+    qualificationsStatement: "",
+    courseReason: "",
+    selfChecked: false,
+    newsPapersAdvertisement: false,
+    seminarWebinar: false,
+    socialMedia: false,
+    openEvents: false,
+    bcasWebsite: false,
+    leaflets: false,
+    studentReview: false,
+    radio: false,
+    other: false,
+    parentsChecked: false,
+    otherChecked: false,
+    spouseChecked: false,
+    payingName: "",
+    payingAddress: "",
+    payingOfficialAddress: "",
+    payingCity: "",
+    payingState: "",
+    payingPostalCode: "",
+    payingCountry: "",
+    payingContactNumber: "",
+    payingEmail: "",
+    hasScholarship: false,
+    studentNumber: "",
+    totalCourseFee: "",
+    registrationFee: "",
+    installments: "",
+    paymentDiscount: "",
+    zohonumber: "",
+    joinDate: "",
+    endDate: "",
+    paymentStatus: false,
+    selectedOlFile: null,
+    selectedAlFile: null,
+    selectedImageFile: null,
+    selectedFile1: null,
+    selectedFile2: null,
+  };
+  // ////////////////////////////////////////////////////////////////////////////////////////////////
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/getdepartments")
+      .then((response) => {
+        console.log(response.data); // Check the structure of the API response
+        setDepartments(response.data.departments || []); // Fallback to an empty array if departments is undefined
+      })
+      .catch((error) => {
+        console.error("Error fetching departments:", error);
+      });
+  }, []);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const [batches, setbatches] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/getbatches")
+      .then((response) => {
+        console.log(response.data); // Check the structure of the API response
+        setbatches(response.data.batches || []); // Fallback to an empty array if departments is undefined
+      })
+      .catch((error) => {
+        console.error("Error fetching batches:", error);
+      });
+  }, []);
+  // ////////////////////////////////////////////////////////////////////////////////////////////////
   const [formData, setFormData] = useState({
     studentFirstName: "",
     studentMiddleName: "",
@@ -80,6 +184,8 @@ const AddStudentPage = (student) => {
     emergencyEmail: "",
     appliedPreferredMode: "",
     programApplied: "",
+    batch: "",
+    department: "",
     appliedStudentNumber: "",
     appliedCourseName: "",
     olExamName: "",
@@ -235,17 +341,16 @@ const AddStudentPage = (student) => {
   };
 
   const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    if (files.length > 0) {
-      setFiles({
-        ...files,
-        [name]: files[0], // Store the first file from the file input
-      });
-      setFileName(files[0].name); // Store the selected file name
+    const { name, files: inputFiles } = e.target;
+    if (inputFiles.length > 0) {
+      setFiles((prevFiles) => ({
+        ...prevFiles,
+        [name]: inputFiles[0],
+      }));
     }
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -333,6 +438,8 @@ const AddStudentPage = (student) => {
     data.append("emergencyEmail", formData.emergencyEmail);
     data.append("appliedPreferredMode", formData.appliedPreferredMode);
     data.append("programApplied", formData.programApplied);
+    data.append("batch", formData.batch);
+    data.append("department", formData.department);
     data.append("appliedStudentNumber", formData.appliedStudentNumber);
     data.append("appliedCourseName", formData.appliedCourseName);
     data.append("olExamName", formData.olExamName);
@@ -412,6 +519,8 @@ const AddStudentPage = (student) => {
 
       if (response) {
         alert(response.data.message); // Access the success message
+        setFormData(resetFileds);
+        setFiles({});
       } else {
         alert("Failed to save student data");
       }
@@ -547,8 +656,6 @@ const AddStudentPage = (student) => {
           `http://127.0.0.1:8000/api/putstudent/${myId}`,
           formData
         );
-
-        
 
         // Check the response structure
         console.log("Response from API:", response.data);
@@ -910,8 +1017,8 @@ const AddStudentPage = (student) => {
                 value={formData.appliedPreferredMode}
                 onChange={handleChange}
               >
-                <MenuItem value="fulltime">Full TIme</MenuItem>
-                <MenuItem value="parttime">Part Time</MenuItem>
+                <MenuItem value="Full Time">Full TIme</MenuItem>
+                <MenuItem value="Part Time">Part Time</MenuItem>
                 {/* Add more countries */}
               </Select>
             </FormControl>
@@ -930,6 +1037,40 @@ const AddStudentPage = (student) => {
                 <MenuItem value="postgraduate">Postgraduate</MenuItem>
                 <MenuItem value="Other">Other</MenuItem>
                 {/* Add more countries */}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Batch</InputLabel>
+              <Select
+                name="batch"
+                value={formData.batch}
+                onChange={handleChange}
+              >
+                {batches.map((batch, index) => (
+                  <MenuItem key={index} value={batch.id}>
+                    {batch.batch_name}
+                  </MenuItem>
+                ))}
+
+                {/* Add more countries */}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Department</InputLabel>
+              <Select
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+              >
+                {departments.map((dept, index) => (
+                  <MenuItem key={index} value={dept.department_id}>
+                    {dept.department_name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -1586,7 +1727,7 @@ const AddStudentPage = (student) => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={6}>
+          {/* <Grid item xs={6}>
             <TextField
               fullWidth
               label="Official Address"
@@ -1595,7 +1736,7 @@ const AddStudentPage = (student) => {
               value={formData.id}
               onChange={handleChange}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={6}>
             <TextField
               fullWidth

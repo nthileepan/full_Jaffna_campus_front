@@ -32,7 +32,9 @@ import ExpenseTypesPage from "./pages/ExpenseTypesPage";
 import AddAccountPage from "./pages/AddAccountPage";
 import AccountsPage from "./pages/AccountsPage";
 import AddStudentPage from "./pages/AddStudentPage";
-import AuthenticatedRoute from '../src/components/AuthenticatedRoute'
+import AuthenticatedRoute from '../src/components/AuthenticatedRoute';
+import StudentproAttendance from './pages/Attendance_pro';
+import QRAttendanceHandler from './components/QRAttendanceHandler';
 import './App.css';
 
 const App = () => {
@@ -58,6 +60,7 @@ const App = () => {
             />
           }
         />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
@@ -112,14 +115,15 @@ const Layout = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
         >
           <Box sx={{ mt: 8 }}>
             <Routes>
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/department" element={<DepartmentPage />} />
+              <Route path="/dashboard" element={<AuthenticatedRoute><DashboardPage /></AuthenticatedRoute>} />
+              <Route path="/department" element={<AuthenticatedRoute> <DepartmentPage /> </AuthenticatedRoute>} />
               <Route path="/module" element={<ModulePage />} />
               <Route path="/batch" element={<BatchPage />} />
               <Route path="/student-details" element={<StudentDetailsPage />} />
               <Route path="/add-student" element={<AddStudentPage />} />
               <Route path="/digital-id" element={<DigitalIDPage />} />
               <Route path="/lecture" element={<LecturePage />} />
+              <Route path="/qr-attendance" element={<QRAttendanceHandler />} />
               <Route
                 path="/assign-to-module"
                 element={<AssignToModulePage />}
@@ -147,6 +151,8 @@ const Layout = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
                 element={<StudentAttendance />}
               />
               <Route path="/report" element={<Report />} />
+              <Route path="/StudentproAttendance" element={<StudentproAttendance />} />
+              <Route path="/qr-attendance" element={<QRAttendanceHandler />} />
             </Routes>
           </Box>
         </Box>

@@ -1,0 +1,144 @@
+/* Attendance.css */
+
+.attendance-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: linear-gradient(to bottom, #e0f7ff, #ffecec);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.attendance-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 500px;
+  margin-top: 20px;
+}
+
+/* Start Date, End Date, and All Dropdown Menu */
+.dropdown-menu,
+.date-picker {
+  padding: 8px; /* Add padding for comfortable interaction */
+  font-size: 14px; /* Standard font size */
+  border: 1px solid #ccc; /* Light border for inputs */
+  border-radius: 5px; /* Rounded corners for modern UI */
+  outline: none; /* Remove the default browser outline */
+  min-width: 150px; /* Minimum width for consistent appearance */
+  text-align: center;
+}
+
+/* Hover Effect */
+.dropdown-menu:hover,
+.date-picker:hover {
+  border-color: #007bff; /* Blue highlight on hover */
+  background-color: #f7faff; /* Subtle background change on hover */
+}
+
+/* Focus Effect */
+.dropdown-menu:focus,
+.date-picker:focus {
+  border-color: #28a745; /* Green border on focus */
+  box-shadow: 0px 0px 4px rgba(40, 167, 69, 0.5); /* Add focus shadow */
+}
+
+/* Filter Button */
+.filter-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #28a745; /* Green button */
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor for interactivity */
+}
+
+.filter-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.semester-dropdown {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.refresh-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.refresh-button:hover {
+  background-color: #218838;
+}
+
+.attendance-title {
+  font-size: 24px; /* Increase font size for better visibility */
+  font-weight: bold;
+  color: #007bff; /* Blue color */
+  margin-top: -450px; /* Adds space above the title */
+  margin-bottom: 10px; /* Adds space below the title */
+  text-align: center; /* Center the title */
+}
+
+.close-icon {
+  color: green;
+}
+
+.attendance-table-container {
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 50px;
+  margin-top: 0px; 
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 500px;
+}
+
+.attendance-table th,
+.attendance-table td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+.attendance-table th {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.attendance-table td {
+  background-color: #e7f3ff;
+}
+
+.attendance-table td:nth-child(even) {
+  background-color: #f7e7e7;
+}
+
+.present {
+  color: green;
+  font-weight: bold;
+  background-color: #d4fdd4;
+}
+.absent {
+  color: rgb(252, 39, 43);
+  font-weight: bold;
+  background-color: #d4fdd4;
+}
